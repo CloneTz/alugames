@@ -23,6 +23,8 @@ function adicionar() {
 }
 
 function sortear() {
+  document.getElementById("lista-sorteio").innerHTML = "";
+
   if (amigos.length < 4) {
     alert("Adicione pelo menos 4 amigos!");
     return;
