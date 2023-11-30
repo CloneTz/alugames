@@ -1,8 +1,20 @@
 let totalGeral = 0;
 limpar();
 
+const btnAdicionar = document.querySelector(".botao-adicionar");
+const carrinhoDeCompras = [];
+
+btnAdicionar.addEventListener("click", (adicionar) => {
+  const meuCarrinho = document.getElementById("lista-produtos");
+  const minhasCompras = {
+    descricao: meuCarrinho.value,
+  };
+  carrinhoDeCompras.push(minhasCompras);
+  localStorage.setItem("carrinho", JSON.stringify(carrinhoDeCompras));
+});
+
 function adicionar() {
-  // recuperar valores nome do produto, quantidade e valor
+  // recuperar nome do produto, quantidade e valor
   let produto = document.getElementById("produto").value;
   let nomeProduto = produto.split("-")[0];
   let valorUnitario = produto.split("R$")[1];
