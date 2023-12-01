@@ -2,23 +2,29 @@ let totalGeral = 0;
 limpar();
 
 const btnAdicionar = document.querySelector(".botao-adicionar");
+const btnLimpar = document.querySelector(".botao-limpar");
 const carrinhoDeCompras = [];
 
-btnAdicionar.addEventListener("click", (adicionar) => {
-  const meuCarrinho = document.getElementById("lista-produtos");
-  const minhasCompras = {
-    descricao: meuCarrinho.value,
-  };
-  carrinhoDeCompras.push(minhasCompras);
+btnAdicionar.addEventListener("click", (event) => {
+  adicionar();
   localStorage.setItem("carrinho", JSON.stringify(carrinhoDeCompras));
+});
+
+btnLimpar.addEventListener("click", (event) => {
+  limpar();
 });
 
 function adicionar() {
   // recuperar nome do produto, quantidade e valor
-  let produto = document.getElementById("produto").value;
-  let nomeProduto = produto.split("-")[0];
-  let valorUnitario = produto.split("R$")[1];
-  let quantidade = document.getElementById("quantidade").value;
+  let produto = document.getElementById("produto");
+  let valor = produto.options[produto.selectedIndex].text;
+  let nomeProduto = valor.split("-")[0].trim();
+  let valorUnitario = parseInt(valor.split("R$")[1]);
+  let quantidade = parseInt(document.getElementById("quantidade").value);
+
+  if (Number.isNaN(quantidade) || quantidade <= 0) {
+    quantidade = 1;
+  }
 
   // calcular o preço, o nosso subtotal
   let preco = quantidade * valorUnitario;
@@ -36,6 +42,8 @@ function adicionar() {
   let campoTotal = document.getElementById("valor-total");
   campoTotal.textContent = `R$ ${totalGeral}`;
   document.getElementById("quantidade").value = "";
+
+  carrinhoDeCompras.push({ nomeProduto, valorUnitario, quantidade });
 }
 
 function limpar() {
